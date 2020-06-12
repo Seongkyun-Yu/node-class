@@ -1,0 +1,12 @@
+접속: (gitbash에서) ssh -i pem드래그드롭하거나 주소쓰기 ubuntu@아마존퍼블릭ip
+
+접속 안될경우 pem 권한 높이기: chmod 600 pem드래그드롭하거나 주소쓰기
+
+
+--- 서버에 노드 설치 ---
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install build-essential
+
+
+--- 서버 설치 경로 ---
