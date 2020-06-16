@@ -1,0 +1,33 @@
+접속: (gitbash에서) ssh -i pem드래그드롭하거나 주소쓰기 ubuntu@아마존퍼블릭ip
+
+접속 안될경우 pem 권한 높이기: chmod 600 pem드래그드롭하거나 주소쓰기
+
+
+--- 서버에 노드 설치 ---
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install build-essential
+
+
+--- 서버 설치 경로 ---
+관리자권한: sudo -s
+이동: cd /home
+폴더만들기: mkdir www
+git clone으로 만든 서버 받기 -> 이동
+
+
+--- 서버 실행시 유용한 프로그램 ---
+npm install pm2 -g
+
+실행 : pm2 www.js (옵션으로 --name 서버이름 으로 실행하면 죽일때 이름으로 죽일 수 있음)
+로그: pm2 logs
+리로드: pm2 reload www.js
+서버 모두 죽이기: pm2 kill
+골라서 죽이기: pm2 stop www
+
+--- 비번설정
+passwd ubuntu
+cd etc
+cd ssh
+vim sshd_config -> 패스워드 접속권한 no로 돼있는거 yes로 바꿈
+reboot
