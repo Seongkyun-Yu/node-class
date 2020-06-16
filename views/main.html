@@ -6,17 +6,27 @@
     <title>Document</title>
   </head>
   <body>
-    <h1><%= locals.data.title %></h1>
-    <p><%- locals.data.html %></p>
+    <input type="text" id="j-input" />
+    <ul id="j-ul"></ul>
 
-    <!-- <img src="/public/pang.jpg" /> -->
-    <% for(i = 0; i<10; i++) { %>
-    <span>패캠!</span>
-    <% } %>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <script>
-      let serverJson = <%- JSON.stringify(locals.data) %>
-      console.log(serverJson);
+      $(document).ready(function () {
+        console.log("문서 시작됐다~");
+      });
+      window.onload = function () {};
+
+      $.ajax({
+        type: "post",
+        url: "123123",
+        data: {},
+        success: function (response) {},
+      }); // 통신용, 만약 jquery mini를 쓴다면 이 기능은 안된다
+
+      $("#j-input").val(); // input 값을 가져온다
+      $("#j-input").attr("text", "안녕"); // text 어트리뷰트에 안녕 넣기
+      $("#j-ul").append(html); // innerHtml += 처럼 쓰는것
     </script>
   </body>
 </html>
