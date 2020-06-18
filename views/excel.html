@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>나 엑셀 업로드 페이지</h1>
+    <button onclick="clickExcelButton()">엑셀업로드 하기</button>
+    <form id="excelFileForm" enctype="multipart/form-data" hidden>
+      <input type="file" name="file" id="excelFileInput" />
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+      $(document).ready(function () {
+        console.log("시작...");
+        $("#excelFileInput").change(function () {
+          var form = $("#excelFileForm")[0];
+          var formData = new FormData(form);
+          $.ajax({
+            url: "/excel/upload",
+            type: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+              console.log(data);
+            },
+            error: function (e) {
+              console.log(e);
+            },
+          });
+        });
+      });
+      function clickExcelButton() {
+        $("#excelFileInput").click();
+      }
+    </script>
+  </body>
+</html>

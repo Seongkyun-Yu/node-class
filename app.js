@@ -1,16 +1,17 @@
 /* eslint-disable class-methods-use-this */
-const http = require('http');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const helmet = require('helmet');
+const http = require("http");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const helmet = require("helmet");
 
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 
-const mainRouter = require('./router/mainRouter');
-const userRouter = require('./router/userRouter');
+const mainRouter = require("./router/mainRouter");
+const userRouter = require("./router/userRouter");
+const excelRouter = require("./router/excelRouter");
 
-const db = require('./model/db');
+const db = require("./model/db");
 
 class AppServer extends http.Server {
   constructor(config) {
@@ -30,15 +31,15 @@ class AppServer extends http.Server {
     this.router();
     this.dbConnection();
 
-    this.app.use('/public', express.static(__dirname + '/public'));
+    this.app.use("/public", express.static(__dirname + "/public"));
 
     return this;
   }
 
   set() {
-    this.app.engine('html', require('ejs').renderFile);
-    this.app.set('views', __dirname + '/views');
-    this.app.set('view engine', 'html');
+    this.app.engine("html", require("ejs").renderFile);
+    this.app.set("views", __dirname + "/views");
+    this.app.set("view engine", "html");
   }
 
   middleWare() {
@@ -46,18 +47,19 @@ class AppServer extends http.Server {
     this.app.use(bodyParser());
     this.app.use(cookieParser());
     this.app.use((req, res, next) => {
-      console.log('미들웨어');
+      console.log("미들웨어");
       next();
     });
   }
 
   router() {
-    this.app.use('/', mainRouter);
-    this.app.use('/user', userRouter);
+    this.app.use("/", mainRouter);
+    this.app.use("/user", userRouter);
+    this.app.use("/excel", excelRouter);
 
     this.app.use((req, res, next) => {
       res.status(404);
-      res.send('잘못된 요청입니다');
+      res.send("잘못된 요청입니다");
     });
   }
 
@@ -65,14 +67,14 @@ class AppServer extends http.Server {
     db.sequelize
       .authenticate()
       .then(() => {
-        console.log('DB접속 완료');
+        console.log("DB접속 완료");
         return db.sequelize.sync({ force: false });
       })
       .then(() => {
-        console.log('디비 접속 완료 후 다음 할 일');
+        console.log("디비 접속 완료 후 다음 할 일");
       })
       .catch((err) => {
-        console.log('DB접속이 실패됐을 경우');
+        console.log("DB접속이 실패됐을 경우");
         console.log(err);
       });
   }
@@ -84,21 +86,21 @@ const createServer = (config = {}) => {
 };
 
 const connectUpbit = () => {
-  const ws = new WebSocket('wss://api.upbit.com/websocket/v1');
+  const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
 
-  ws.on('open', () => {
-    console.log('연결됨');
+  ws.on("open", () => {
+    console.log("연결됨");
 
     ws.send(
       JSON.stringify([
-        { ticket: 'test' },
-        { type: 'ticker', codes: ['KRW-BTC'] },
-      ]),
+        { ticket: "test" },
+        { type: "ticker", codes: ["KRW-BTC"] },
+      ])
     );
   });
 
-  ws.on('message', (data) => {
-    console.log(data.toString('utf-8'));
+  ws.on("message", (data) => {
+    console.log(data.toString("utf-8"));
   });
 };
 
