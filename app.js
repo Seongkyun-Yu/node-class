@@ -12,6 +12,8 @@ const userRouter = require("./router/userRouter");
 const excelRouter = require("./router/excelRouter");
 const imageRouter = require("./router/imageRouter");
 
+const nikeCrawling = require("./schedule/nikeCrawling");
+
 const db = require("./model/db");
 
 class AppServer extends http.Server {
@@ -31,6 +33,7 @@ class AppServer extends http.Server {
     this.middleWare();
     this.router();
     this.dbConnection();
+    // this.schedule();
 
     this.app.use("/public", express.static(__dirname + "/public"));
 
@@ -79,6 +82,10 @@ class AppServer extends http.Server {
         console.log("DB접속이 실패됐을 경우");
         console.log(err);
       });
+  }
+
+  schedule() {
+    nikeCrawling.run();
   }
 }
 
