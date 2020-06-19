@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>내 이미지 업로드 페이지</h1>
+    <button onclick="clickImageButton()">이미지 업로드 하기</button>
+    <form id="imageFileForm" enctype="multipart/form-data" hidden>
+      <input type="file" name="file" id="imageFileInput" />
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+      $(document).ready(function () {
+        console.log("시작...");
+        $("#imageFileInput").change(function () {
+          var form = $("#imageFileForm")[0];
+          var formData = new FormData(form);
+          $.ajax({
+            url: "/image/upload",
+            type: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+              console.log(data);
+            },
+          });
+        });
+      });
+      function clickImageButton() {
+        $("#imageFileInput").click();
+      }
+    </script>
+  </body>
+</html>

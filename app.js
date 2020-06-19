@@ -10,6 +10,7 @@ const WebSocket = require("ws");
 const mainRouter = require("./router/mainRouter");
 const userRouter = require("./router/userRouter");
 const excelRouter = require("./router/excelRouter");
+const imageRouter = require("./router/imageRouter");
 
 const db = require("./model/db");
 
@@ -56,6 +57,7 @@ class AppServer extends http.Server {
     this.app.use("/", mainRouter);
     this.app.use("/user", userRouter);
     this.app.use("/excel", excelRouter);
+    this.app.use("/image", imageRouter);
 
     this.app.use((req, res, next) => {
       res.status(404);
