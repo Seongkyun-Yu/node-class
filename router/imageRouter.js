@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const multiparty = require("multiparty");
 const readXlsxFile = require("read-excel-file/node");
-const FileUpload = require("../lib/aws/fileUpload.js");
+const FileUpload = require("../lib/aws/fileupload.js");
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   res.render("image");
