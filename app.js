@@ -13,6 +13,7 @@ const excelRouter = require("./router/excelRouter");
 const imageRouter = require("./router/imageRouter");
 
 const nikeCrawling = require("./schedule/nikeCrawling");
+const { testMailer } = require("./mail/testMailer");
 
 const db = require("./model/db");
 
@@ -36,6 +37,13 @@ class AppServer extends http.Server {
     // this.schedule();
 
     this.app.use("/public", express.static(__dirname + "/public"));
+
+    let testMail = {
+      receiver: ["ysungkyun@gmail.com"],
+      subject: "클래스형 노드서버가 켜짐",
+      content: "<h1>서버 안전 운행중 - 이상무</h1>",
+    };
+    // testMailer(testMail); // 앱 비번 입력 후 주석 풀어라
 
     return this;
   }
